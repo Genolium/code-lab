@@ -1,0 +1,224 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/board.gd" id="2_board"]
+[ext_resource type="Script" path="res://scripts/robot.gd" id="3_robot"]
+[ext_resource type="Script" path="res://scripts/interpreter.gd" id="4_interp"]
+[ext_resource type="Script" path="res://scripts/camera_rig.gd" id="5_camera"]
+[ext_resource type="PackedScene" path="res://scenes/world_lighting.tscn" id="6_light"]
+
+[node name="Main" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_main")
+
+[node name="WorldLighting" parent="." instance=ExtResource("6_light")]
+
+[node name="Board" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("2_board")
+
+[node name="Robot" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("3_robot")
+
+[node name="Interpreter" type="Node" parent="."]
+process_mode = 1
+script = ExtResource("4_interp")
+
+[node name="CameraRig" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("5_camera")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+fov = 50.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TopBar" type="HBoxContainer" parent="UI"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 600.0
+offset_bottom = 56.0
+theme_override_constants/separation = 16
+
+[node name="MenuButton" type="Button" parent="UI/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Пауза и настройки"
+text = "Меню (Esc)"
+
+[node name="ControlsHint" type="Label" parent="UI/TopBar"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.6)
+text = "ПКМ — вращать камеру, колесо мыши — масштаб"
+
+[node name="Panel" type="PanelContainer" parent="UI"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -436.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="UI/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="UI/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LevelTitle" type="Label" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+
+theme_override_font_sizes/font_size = 22
+text = "Уровень"
+autowrap_mode = 3
+
+[node name="LevelHint" type="Label" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.8)
+text = "Подсказка"
+autowrap_mode = 3
+
+[node name="Sep1" type="HSeparator" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="CommandsHeader" type="Label" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.7)
+text = "Команды: нажмите или перетащите в программу"
+autowrap_mode = 3
+
+[node name="CommandButtons" type="HFlowContainer" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sep2" type="HSeparator" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ProgramHeader" type="Label" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+theme_override_font_sizes/font_size = 18
+text = "Программа"
+
+[node name="CursorBar" type="HBoxContainer" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="CursorLabel" type="Label" parent="UI/Panel/Margin/VBox/CursorBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.976, 0.737, 0.376, 1)
+text = "Команды добавляются в программу"
+autowrap_mode = 3
+
+[node name="ExitBlockButton" type="Button" parent="UI/Panel/Margin/VBox/CursorBar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Добавлять следующие команды после блока"
+text = "Выйти из блока"
+
+[node name="ProgramScroll" type="ScrollContainer" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ProgramList" type="VBoxContainer" parent="UI/Panel/Margin/VBox/ProgramScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpeedRow" type="HBoxContainer" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SpeedLabel" type="Label" parent="UI/Panel/Margin/VBox/SpeedRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+text = "Скорость: 1.00×"
+
+[node name="SpeedSlider" type="HSlider" parent="UI/Panel/Margin/VBox/SpeedRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.5
+max_value = 3.0
+step = 0.25
+value = 1.0
+
+[node name="Buttons" type="HBoxContainer" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="RunButton" type="Button" parent="UI/Panel/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Выполнить программу целиком"
+theme_type_variation = &"AccentButton"
+text = "Запуск"
+
+[node name="StepButton" type="Button" parent="UI/Panel/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Выполнить одну команду"
+text = "Шаг"
+
+[node name="StopButton" type="Button" parent="UI/Panel/Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Стоп"
+
+[node name="Buttons2" type="HBoxContainer" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ClearButton" type="Button" parent="UI/Panel/Margin/VBox/Buttons2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Очистить"
+
+[node name="HintButton" type="Button" parent="UI/Panel/Margin/VBox/Buttons2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Подсказка"
+
+[node name="StatusLabel" type="Label" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Статус"
+autowrap_mode = 3
+
+[node name="NextButton" type="Button" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "Следующий уровень"

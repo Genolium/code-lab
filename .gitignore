@@ -1,0 +1,11 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Сборки (exe больше 100 МБ — лимита файла GitHub; выкладываются в Releases)
+/build/
+*.tpz
+
+# Временные файлы
+*.tmp
+.DS_Store

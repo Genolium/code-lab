@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://scripts/board.gd" id="2_board"]
+[ext_resource type="Script" path="res://scripts/robot.gd" id="3_robot"]
+[ext_resource type="Script" path="res://scripts/interpreter.gd" id="4_interp"]
+[ext_resource type="Script" path="res://scripts/camera_rig.gd" id="5_camera"]
+[ext_resource type="PackedScene" path="res://scenes/world_lighting.tscn" id="6_light"]
+
+[node name="Menu" type="Node3D"]
+script = ExtResource("1_menu")
+
+[node name="WorldLighting" parent="." instance=ExtResource("6_light")]
+
+[node name="Board" type="Node3D" parent="."]
+script = ExtResource("2_board")
+
+[node name="Robot" type="Node3D" parent="."]
+script = ExtResource("3_robot")
+
+[node name="Interpreter" type="Node" parent="."]
+script = ExtResource("4_interp")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("5_camera")
+screen_offset = -0.22
+auto_rotate = 0.08
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+fov = 50.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="UI"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 556.0
+offset_bottom = -56.0
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="UI/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="VBox" type="VBoxContainer" parent="UI/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+theme_override_colors/font_color = Color(0.976, 0.737, 0.376, 1)
+theme_override_font_sizes/font_size = 56
+text = "CodeLab 3D"
+
+[node name="Subtitle" type="Label" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.75)
+theme_override_font_sizes/font_size = 18
+text = "Учись программировать, управляя роботом"
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="UI/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="UI/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
